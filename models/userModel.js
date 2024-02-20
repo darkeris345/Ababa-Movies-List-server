@@ -4,32 +4,24 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true,
     trim: true,
-    minlength: 8,
     validate: {
       validator: function (value) {
-        if (value.length < 8) {
-          return false;
-        }
-        if (!/\d/.test(value)) {
-          return false;
-        }
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-          return false;
-        }
-        return true;
+        return /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])(?=.*[a-zA-Z]).{8,}$/.test(
+          value
+        );
       },
       message:
-        "Password should be at least 8 characters long and contain at least one number and one special character",
+        "Password must be at least 8 characters long and include at least one symbol.",
     },
   },
-  favouriteMovies: [
+  favouritesListes: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Movie",
