@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Movie = require("../models/movieModel");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema({
   favouritesListes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Movie",
+      ref: Movie,
     },
   ],
 });

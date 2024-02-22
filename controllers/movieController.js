@@ -7,7 +7,7 @@ exports.getMovies = async (req, res) => {
     const page = +req.query._page || 1;
     const perPage = +req.query._per_page || 10;
 
-    const totalCount = await Movie.countDocuments();
+    const totalCount = await Movie.countDocuments().populate("favouritesListes");
 
     const movies = await Movie.find({})
       .sort({ Title: 1 })
