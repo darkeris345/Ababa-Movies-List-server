@@ -1,13 +1,13 @@
 const Movie = require("../models/movieModel");
 
 // Get all movies
-
 exports.getMovies = async (req, res) => {
   try {
     const page = +req.query._page || 1;
     const perPage = +req.query._per_page || 10;
 
-    const totalCount = await Movie.countDocuments().populate("favouritesListes");
+    const totalCount =
+      await Movie.countDocuments().populate("favouritesListes");
 
     const movies = await Movie.find({})
       .sort({ Title: 1 })
@@ -22,7 +22,6 @@ exports.getMovies = async (req, res) => {
 };
 
 // Get single movie
-
 exports.getMovie = async (req, res) => {
   try {
     const { _id } = req.params;
@@ -34,7 +33,6 @@ exports.getMovie = async (req, res) => {
 };
 
 // Add movie
-
 exports.addMovie = async (req, res) => {
   try {
     const movie = await Movie.create(req.body);
@@ -45,7 +43,6 @@ exports.addMovie = async (req, res) => {
 };
 
 // Update movie
-
 exports.updateMovie = async (req, res) => {
   try {
     const { _id } = req.params;
@@ -60,7 +57,6 @@ exports.updateMovie = async (req, res) => {
 };
 
 // Delete movie
-
 exports.deleteMovie = async (req, res) => {
   try {
     const { _id } = req.params;

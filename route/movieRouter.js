@@ -12,7 +12,7 @@ const { getMovies, getMovie, addMovie, updateMovie, deleteMovie } =
 movieRouter.route("/").get(authUser, getMovies).post(authUser, addMovie);
 movieRouter
   .route("/:_id")
-  .get( getMovie)
+  .get(authUser, getMovie)
   .put(authUser, updateMovie)
   .delete(authUser, deleteMovie);
 

@@ -10,6 +10,7 @@ exports.registerUser = async (req, res) => {
     const { username, password } = req.body;
 
     const existingUser = await User.findOne({ username });
+
     if (existingUser) {
       return res.status(404).json({
         message: "Username already exists. Please choose a different username",
@@ -29,26 +30,24 @@ exports.registerUser = async (req, res) => {
 };
 
 // Login user
-
 exports.loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
 
     const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
+
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
+
+    if (!passwordMatch)
       return res.status(401).json({ message: "Invalid credentials" });
-    }
+
     const token = jwt.sign({ userId: user._id }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "2h",
     });
 
-    console.log(user._id);
-
-    res.json({ token, username, _id: user._id });
+    res.status(200).json({ token, username, _id: user._id });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
@@ -59,6 +58,7 @@ exports.updateUser = async (req, res) => {
   try {
     const { _id } = req.params;
     const { favouriteListes } = req.body;
+
     const user = await User.findByIdAndUpdate(
       _id,
       { $addToSet: { favouritesListes: favouriteListes } },
@@ -82,7 +82,6 @@ exports.updateUser = async (req, res) => {
 };
 
 // Delete movie from user
-
 exports.deleteMovie = async (req, res) => {
   try {
     const { _id, movieId } = req.params;
@@ -105,7 +104,6 @@ exports.deleteMovie = async (req, res) => {
 };
 
 // Get user favourite list
-
 exports.userFavouriteList = async (req, res) => {
   try {
     const { _id } = req.params;
