@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         );
       },
       message:
-        "Password must be at least 8 characters long and include at least one symbol.",
+        "Password must be 8+ characters with at least one symbol.",
     },
   },
   favouritesListes: [

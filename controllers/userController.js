@@ -44,7 +44,7 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
 
     const token = jwt.sign({ userId: user._id }, secretKey, {
-      expiresIn: "2h",
+      expiresIn: "1h",
     });
 
     res.status(200).json({ token, username, _id: user._id });
@@ -107,14 +107,32 @@ exports.deleteMovie = async (req, res) => {
 exports.userFavouriteList = async (req, res) => {
   try {
     const { _id } = req.params;
-    const user = await User.findById(_id).populate("favouritesListes");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    const { Title } = req.query;
+
+    if (Title && Title.length >= 3) {
+      const user = await User.findById(_id).populate("favouritesListes");
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const filteredFavourites = user.favouritesListes.filter((item) => {
+        return item.Title.toLowerCase().includes(Title.toLowerCase());
+      });
+
+      res.status(200).json(filteredFavourites);
+    } else {
+      const user = await User.findById(_id).populate("favouritesListes");
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.status(200).json(user.favouritesListes);
     }
-    res.status(200).json(user.favouritesListes);
   } catch (error) {
     res
-      .status(404)
+      .status(500)
       .json({ message: "Internal Server Error", error: error.message });
   }
 };

@@ -3,13 +3,22 @@ const Movie = require("../models/movieModel");
 // Get all movies
 exports.getMovies = async (req, res) => {
   try {
+    // Filtering
+    const { Title } = req.query;
+
+    const filter = {};
+
+    if (Title && Title.length >= 3) {
+      filter.Title = { $regex: Title, $options: "i" };
+    }
+
+    const totalCount = await Movie.countDocuments(filter);
+
+    // Pagination
     const page = +req.query._page || 1;
     const perPage = +req.query._per_page || 10;
 
-    const totalCount =
-      await Movie.countDocuments().populate("favouritesListes");
-
-    const movies = await Movie.find({})
+    const movies = await Movie.find(filter)
       .sort({ Title: 1 })
       .skip((page - 1) * perPage)
       .limit(perPage);
