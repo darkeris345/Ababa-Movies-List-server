@@ -1,14 +1,25 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const authUserController = require("../middlewares/authUser");
-const { registerEndpoint, loginEndpoint, idEndpoint, movieIdEndpoint } = require("../route/routesEndpoint");
+const {
+  registerEndpoint,
+  loginEndpoint,
+  idEndpoint,
+  movieIdEndpoint,
+  getMoviesEndpoint,
+} = require("../route/routesEndpoint");
 
 const userRouter = express.Router();
 
 const { authUser } = authUserController;
 
-const { registerUser, loginUser, updateUser, userFavouriteList, deleteMovie } =
-  userController;
+const {
+  registerUser,
+  loginUser,
+  updateUser,
+  userFavouriteList,
+  deleteMovie,
+} = userController;
 
 userRouter.route(registerEndpoint).post(registerUser);
 userRouter.route(loginEndpoint).post(loginUser);
@@ -17,5 +28,6 @@ userRouter
   .patch(authUser, updateUser)
   .get(authUser, userFavouriteList);
 userRouter.route(movieIdEndpoint).patch(authUser, deleteMovie);
+userRouter.route(getMoviesEndpoint)
 
 module.exports = userRouter;

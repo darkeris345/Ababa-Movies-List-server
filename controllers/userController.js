@@ -12,7 +12,8 @@ exports.registerUser = async (req, res) => {
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      return res.status(404).json({
+      return res.status(400).json({
+        success: false,
         message: "Username already exists. Please choose a different username",
       });
     }
@@ -109,27 +110,19 @@ exports.userFavouriteList = async (req, res) => {
     const { _id } = req.params;
     const { Title } = req.query;
 
-    if (Title && Title.length >= 3) {
-      const user = await User.findById(_id).populate("favouritesListes");
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      const filteredFavourites = user.favouritesListes.filter((item) => {
-        return item.Title.toLowerCase().includes(Title.toLowerCase());
-      });
-
-      res.status(200).json(filteredFavourites);
-    } else {
-      const user = await User.findById(_id).populate("favouritesListes");
-
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      res.status(200).json(user.favouritesListes);
+    const user = await User.findById(_id).populate("favouritesListes");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    const filteredFavourites =
+      Title && Title.length >= 3
+        ? user.favouritesListes.filter((item) =>
+            item.Title.toLowerCase().includes(Title.toLowerCase())
+          )
+        : user.favouritesListes;
+
+    res.status(200).json(filteredFavourites);
   } catch (error) {
     res
       .status(500)

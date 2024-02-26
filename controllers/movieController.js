@@ -16,10 +16,19 @@ exports.getMovies = async (req, res) => {
 
     // Pagination
     const page = +req.query._page || 1;
-    const perPage = +req.query._per_page || 10;
+    const perPage = +req.query._per_page || 4;
+
+    // Sorting
+    const sort = {};
+    if (req.query.sort) {
+      const parts = req.query.sort.split(":");
+      sort[parts[0]] = parts[1] === "asc" ? 1 : -1;
+    } else {
+      sort.Title = 1;
+    }
 
     const movies = await Movie.find(filter)
-      .sort({ Title: 1 })
+      .sort(sort)
       .skip((page - 1) * perPage)
       .limit(perPage);
 
