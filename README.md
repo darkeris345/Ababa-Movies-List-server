@@ -11,7 +11,7 @@ To get started, first, you need git and Node.js installed, and to create the Mon
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/Ababa-Movies-List-server.git
+   git clone https://github.com/darkeris345/Ababa-Movies-List-server.git
    ```
 
 2. Navigate to the repository directory:
