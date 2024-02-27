@@ -1,10 +1,10 @@
 # Ababa Movie List Server
 
-The server-side code for the Movie List application. This server provides the necessary backend functionality to support the client-side application, allowing users to browse and manage their favorite movies. You can download client side cide [here](https://github.com/darkeris345/Ababa-Movies-List-FE)
+The server-side code for the Movie List application. This server provides the necessary backend functionality to support the client-side application, allowing users to browse and manage their favorite movies. You can download client-side code [here](https://github.com/darkeris345/Ababa-Movies-List-FE)
 
 ## Getting Started
 
-To get started, first, you need git and Node.js installed, create MongoDB database.
+To get started, first, you need git and Node.js installed, and to create the MongoDB database.
 
 ## Installation
 
@@ -36,9 +36,9 @@ To get started, first, you need git and Node.js installed, create MongoDB databa
 
 1. Create a MongoDB account if you don't have one:[MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register) for more details.
 
-2. Create a MongoDB database give it name you want.
+2. Create a MongoDB database and give it the name you want.
 
-3. Create .env file in this project and add your database details. Here is an example:
+3. Create a .env file in this project and add your database details. Here is an example:
 
 ```bash
 NODE_ENV=development
@@ -47,21 +47,21 @@ DATABASE_URL=mongodb+srv://<USERNAME>:<PASSWORD>@tours.fpc6858.mongodb.net/<DATA
 JWT_SECRET=YOUR_JWT_SECRET_KEY
 ```
 
-4. There is import.js file in the root folder, use it to upload moviesDB.movies.json file to your database. You can upload json file to database manually or use import.js.
+4. There is an import.js file in the root folder, use it to upload moviesDB.movies.json file to your database. You can upload JSON files to the database manually or use import.js.
 
 ```bash
 node import.js --import
 ```
 
-if you want to delete all data from database: 
+if you want to delete all data from the database: 
 
 ```bash
 node import.js --delete
 ```
 
-# Giving user the admin type
+# Giving the user the admin type
 
-There are two types of users: Admin and User. Admin users additionally have the ability to add, edit, and remove movies from the movie list. Users have only read-only access to the movie list, they can only view the list, add those movies to their favourite list and remove them.
+There are two types of users: Admin and User. Admin users can additionally add, edit, and remove movies from the movie list. Users have only read-only access to the movie list, they can only view the list, add those movies to their favorite list, and remove them.
 
 ## Adding Admin Type using Postman
 
