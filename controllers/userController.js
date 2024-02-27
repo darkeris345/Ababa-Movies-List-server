@@ -7,7 +7,7 @@ const secretKey = process.env.JWT_SECRET;
 // Register user
 exports.registerUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, type } = req.body;
 
     const existingUser = await User.findOne({ username });
 
@@ -22,6 +22,7 @@ exports.registerUser = async (req, res) => {
     const newUser = await User.create({
       username,
       password: hashedPassword,
+      type,
     });
 
     res.status(201).json({ message: "User registered successfully" });
@@ -45,10 +46,10 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
 
     const token = jwt.sign({ userId: user._id }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "2h",
     });
 
-    res.status(200).json({ token, username, _id: user._id });
+    res.status(200).json({ token, username, _id: user._id, type: user.type });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }

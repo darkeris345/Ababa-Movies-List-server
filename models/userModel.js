@@ -22,6 +22,13 @@ const userSchema = new mongoose.Schema({
         "Password must be 8+ characters with at least one symbol.",
     },
   },
+  type: {
+    type: String,
+    required: true,
+    trim: true,
+    default: "user",
+    enum: ["admin", "user"],
+  },
   favouritesListes: [
     {
       type: mongoose.Schema.Types.ObjectId,

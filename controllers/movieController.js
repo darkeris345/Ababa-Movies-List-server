@@ -50,15 +50,16 @@ exports.getMovie = async (req, res) => {
   }
 };
 
-// Add movie
-exports.addMovie = async (req, res) => {
+
+// Create movie
+exports.createMovie = async (req, res) => {
   try {
     const movie = await Movie.create(req.body);
-    res.status(201).json({ movie });
+    res.status(201).json(movie);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
+}
 
 // Update movie
 exports.updateMovie = async (req, res) => {
@@ -66,13 +67,13 @@ exports.updateMovie = async (req, res) => {
     const { _id } = req.params;
     const movie = await Movie.findByIdAndUpdate(_id, req.body, {
       new: true,
-      runValidators: true,
     });
     res.status(200).json(movie);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
+}
+
 
 // Delete movie
 exports.deleteMovie = async (req, res) => {
@@ -83,4 +84,4 @@ exports.deleteMovie = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-};
+}
