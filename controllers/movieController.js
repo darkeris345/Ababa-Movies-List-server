@@ -33,9 +33,16 @@ exports.getMovies = async (req, res) => {
       .limit(perPage);
 
     res.header("x-total-count", totalCount.toString());
-    res.status(200).json({ movies, totalCount });
+    res.status(200).json({
+      success: true,
+      movies,
+      totalCount,
+    });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -46,10 +53,12 @@ exports.getMovie = async (req, res) => {
     const movie = await Movie.findById(_id);
     res.status(200).json(movie);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
-
 
 // Create movie
 exports.createMovie = async (req, res) => {
@@ -57,9 +66,12 @@ exports.createMovie = async (req, res) => {
     const movie = await Movie.create(req.body);
     res.status(201).json(movie);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
 
 // Update movie
 exports.updateMovie = async (req, res) => {
@@ -70,10 +82,11 @@ exports.updateMovie = async (req, res) => {
     });
     res.status(200).json(movie);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ 
+      success: false,      
+      message: error.message });
   }
-}
-
+};
 
 // Delete movie
 exports.deleteMovie = async (req, res) => {
@@ -82,6 +95,8 @@ exports.deleteMovie = async (req, res) => {
     const movie = await Movie.findByIdAndDelete(_id);
     res.status(200).json(movie);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ 
+      success: false,
+      message: error.message });
   }
-}
+};

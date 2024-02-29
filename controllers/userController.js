@@ -25,9 +25,15 @@ exports.registerUser = async (req, res) => {
       type,
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 
@@ -38,20 +44,36 @@ exports.loginUser = async (req, res) => {
 
     const user = await User.findOne({ username });
 
-    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    if (!user)
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch)
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
 
     const token = jwt.sign({ userId: user._id }, secretKey, {
       expiresIn: "2h",
     });
 
-    res.status(200).json({ token, username, _id: user._id, type: user.type });
+    res.status(200).json({
+      success: true,
+      token,
+      username,
+      _id: user._id,
+      type: user.type,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 
@@ -68,18 +90,25 @@ exports.updateUser = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
     res.status(200).json(user);
   } catch (error) {
     if (error.name === "ValidationError") {
-      return res
-        .status(422)
-        .json({ message: "Validation failed", errors: error.errors });
+      return res.status(422).json({
+        success: false,
+        message: "Validation failed",
+        error: error.message,
+      });
     }
-    res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 
@@ -94,14 +123,19 @@ exports.deleteMovie = async (req, res) => {
     );
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
 
     res.status(200).json(user);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 
@@ -125,8 +159,10 @@ exports.userFavouriteList = async (req, res) => {
 
     res.status(200).json(filteredFavourites);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
