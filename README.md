@@ -17,7 +17,7 @@ To get started, first, you need git and Node.js installed, and to create the Mon
 2. Navigate to the repository directory:
 
    ```bash
-   cd Ababa-Movies-List-server
+   cd Movies-List-server
    ```
 
 3. Install dependencies:
